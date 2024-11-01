@@ -1,0 +1,2 @@
+# Folder For Application Logic 
+This new folder is the container for all application logic. This keeps the main application code containerized and seperated from our other resources and files in the tree.
