@@ -7,11 +7,24 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <header>
+    <nav>
+        <div class="container nav-container">
+            <a href="{{ url_for('index') }}" class="logo">Task Manager</a>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('index') }}">Home</a></li>
+                <li><a href="{{ url_for('about') }}">About</a></li>
+                <li><a href="{{ url_for('contact') }}">Contact</a></li>
+                <li><a href="{{ url_for('login') }}">Login</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+
+    <header id="home">
         <div class="container">
             <h1>Welcome to Task Manager</h1>
             <p>Manage your projects and tasks effortlessly.</p>
-            <a href="#features" class="cta-btn">Get Started</a>
+            <a href="{{ url_for('signup') }}" class="cta-btn">Get Started</a>
         </div>
     </header>
 
@@ -38,7 +51,4 @@
     <footer>
         <div class="container">
             <p>&copy; 2024 Task Manager. All rights reserved.</p>
-        </div>
-    </footer>
-</body>
-</html>
+    
