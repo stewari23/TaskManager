@@ -42,3 +42,16 @@ If the project is ongoing, a version history or changelog can be helpful to trac
 
 ## Frequently Asked Questions (FAQs)
 A section for answering common questions about the project can be useful, especially for larger or more complex projects.
+
+### Setting Up the Database
+
+To initialize the database with the required schema, follow these steps:
+
+1. Make sure you are in the project directory.
+2. Run the following command to create the `database.db` file and set up the `users` table:
+
+   ```bash
+   sqlite3 database.db < init_db.sql
+
+
+
