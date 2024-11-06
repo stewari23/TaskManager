@@ -1,6 +1,10 @@
 from flask import Flask, render_template
 
-app = Flask(__name__)
+app = Flask(
+    __name__,
+    static_folder='../static',  # Points to static directory in src
+    template_folder='../templates'  # Points to templates directory in src
+)
 
 @app.route('/')
 def index():
@@ -21,7 +25,6 @@ def login():
 @app.route('/signup')
 def signup():
     return render_template('signup.html')
-
 
 if __name__ == "__main__":
     app.run(debug=True)
