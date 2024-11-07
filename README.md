@@ -52,6 +52,4 @@ To initialize the database with the required schema, follow these steps:
 
    ```bash
    sqlite3 database.db < init_db.sql
-
-
-
+   ```
