@@ -1,0 +1,24 @@
+# Tests Folder
+Moving forward, place all test-related files here to organize testing resources.
+This includes Unit, Automatic, Manual, API, and any other tests can go here.
+
+# Required Tests per project requirements:
+## Unit Testing: Pytest
+- Purpose: Unit tests are designed to test individual components or functions in isolation. They ensure that each part of the code works as intended.
+- Tool: Pytest
+- Students will create test cases using `Pytest` to validate the functionality of various functions and modules within the application. These unit test cases will be documented and organized into test suites to ensure thorough coverage and understanding of isolated components. 
+
+## UI Testing: Selenium & Playright
+- Purpose: UI tests (end-to-end or acceptance tests) simulate user interactions with the application to ensure that the UI behaves correctly and the application works as a whole from the user's perspective.
+- Tool: Selenium, Playwright
+- Students will create test cases using `Selenium` and `Playwright` to automate browser interactions. These UI test cases will be organized into test suites to validate that the application functions correctly from the user's point of view, covering various user scenarios and interface elements.
+
+## API Testing: Postman and Python 'requests' library
+- Purpose: API tests ensure that the backend services and endpoints behave as expected. They validate the correctness and performance of the API.
+- Tool: Postman, Requests
+- Students will create test cases using `Postman` and the `requests` library in Python to validate the application's API endpoints. These API test cases will be organized into collections and suites, ensuring the endpoints return the expected responses and handle edge cases properly.
+
+## Acceptance Testing: Robot Framework
+- Purpose: Acceptance tests verify that the entire system meets the business requirements and works as intended from an end-user perspective. They are used to validate new features or changes to ensure they meet the specified criteria.
+- Tool: Robot Framework
+- Students will create test cases using `Robot Framework` to ensure that the application meets the predefined requirements and works as expected in real-world scenarios. These test cases will be organized into test suites, covering various user stories and business rules to ensure complete coverage and correctness.

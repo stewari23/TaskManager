@@ -81,4 +81,3 @@ The test plan will be reviewed at the end of each testing phase to ensure it ali
 
 ## 13. Approval
 This Test Plan requires approval from the team members: Lacy Fields, Jack Stahl, Shivam Tewari, and Alex Rosa.
-
