@@ -4,37 +4,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Task Management Dashboard</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='dashboard-styles.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" 
           integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" 
           crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
+    <nav>
+        <div class="container nav-container">
+            <a href="{{ url_for('index') }}" class="logo">Task Manager</a>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('index') }}">Home</a></li>
+                <li><a href="{{ url_for('about') }}">About</a></li>
+                <li><a href="{{ url_for('contact') }}">Contact</a></li>
+                <li><a href="{{ url_for('login') }}">Login</a></li>
+            </ul>
+        </div>
+    </nav>
     <div class="dashboard-container">
         <header class="dashboard-response dashboard-alert">Write value for task name</header>
         
         <form id="dashboard-form">
             <h3>Task Dashboard</h3>
             <div class="dashboard-input-group">
-                <input type="text" id="task-input" placeholder="task...">
+                <input type="text" id="task-input" placeholder="Task...">
                 <button id="add-task" class="dashboard-button" type="submit">Add Task</button>
             </div>
         </form>
         
         <div class="dashboard-task-container">
             <div class="dashboard-task-list">
-                <!-- <div class="dashboard-task">
-                    <div class="dashboard-task-info">
-                        <h6 class="dashboard-task-index">1</h6>
-                        <p class="dashboard-task-name">Task One</p>
-                    </div>
-                    
-                    <div class="dashboard-task-icons">
-                        <i class="far fa-check-circle complete-task"></i>
-                        <i class="far fa-edit edit-task"></i>
-                        <i class="far fa-times-circle delete-task"></i>
-                    </div>
-                </div> -->
             </div>
             <button type="button" id="clear-tasks" class="dashboard-button">Clear Tasks</button>
         </div>
