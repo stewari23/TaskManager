@@ -97,5 +97,20 @@ Special thanks to our instructor, Cindy Halliday for guidance and providing reso
 - v0.2: Added project management files and structure
 - v0.3: Built templates for app pages and test plans
 
+## Frequently Asked Questions (FAQs)
+A section for answering common questions about the project can be useful, especially for larger or more complex projects.
+
+### Setting Up the Database
+
+To initialize the database with the required schema, follow these steps:
+
+1. Make sure you are in the project directory.
+2. Run the following command to create the `database.db` file and set up the `users` table:
+
+   ```bash
+   sqlite3 database.db < init_db.sql
+   ```
+
 ## Frequently Asked Questions (FAQs) !!! WIP !!!
 TBD
+

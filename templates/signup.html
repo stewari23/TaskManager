@@ -24,6 +24,17 @@
         <p>Sign up to start managing your projects and tasks efficiently.</p>
     </header>
 
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="flash-messages">
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
     <section class="signup-section">
         <div class="container">
             <form action="{{ url_for('signup') }}" method="post">
