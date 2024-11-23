@@ -1,4 +1,4 @@
-from flask import Flask, flash, redirect, render_template, request, url_for
+from flask import Flask, flash, jsonify, redirect, render_template, request, url_for
 
 
 
@@ -9,6 +9,9 @@ app = Flask(
 )
 
 app.secret_key = 'a_random_secret_key_12345'
+
+tasks = []
+
 
 
 @app.route('/')
@@ -44,9 +47,26 @@ def signup():
 
     return render_template('signup.html')
 
-@app.route('/dashboard')
+@app.route('/dashboard', methods=['GET', 'POST'])
 def dashboard():
-    return render_template('dashboard.html')
+    if request.method == 'POST':
+        task = {
+            "name": request.form.get('name'),
+            "priority": request.form.get('priority'),
+            "due_date": request.form.get('due_date'),
+            "status": request.form.get('status'),
+            "assigned_to": request.form.get('assigned_to')
+        }
+        tasks.append(task)
+        return jsonify({"message": "Task added successfully", "tasks": tasks})
+    return render_template('dashboard.html', tasks=tasks)
+
+@app.route('/delete_task', methods=['POST'])
+def delete_task():
+    task_name = request.form.get('name')
+    global tasks
+    tasks = [task for task in tasks if task['name'] != task_name]
+    return jsonify({"message": "Task deleted successfully", "tasks": tasks})
 
 if __name__ == "__main__":
     app.run(debug=True)

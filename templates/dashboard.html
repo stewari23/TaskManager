@@ -26,20 +26,41 @@
     <div class="dashboard-container">
         <header class="dashboard-response dashboard-alert">Write value for task name</header>
         
-        <form id="dashboard-form">
+        <form id="dashboard-form" method="post" action="/dashboard">
             <h3>Task Dashboard</h3>
             <div class="dashboard-input-group">
-                <input type="text" id="task-input" placeholder="Task...">
+                <input type="text" id="task-input" name="name" placeholder="Task Name..." required>
+                <select id="priority-input" name="priority">
+                    <option value="Low">Low</option>
+                    <option value="Medium">Medium</option>
+                    <option value="High">High</option>
+                </select>
+                <input type="date" id="due-date-input" name="due_date" required>
+                <select id="status-input" name="status">
+                    <option value="Pending">Pending</option>
+                    <option value="In Progress">In Progress</option>
+                    <option value="Completed">Completed</option>
+                </select>
+                <input type="text" id="assigned-to-input" name="assigned_to" placeholder="Assign to..." required>
                 <button id="add-task" class="dashboard-button" type="submit">Add Task</button>
             </div>
         </form>
         
         <div class="dashboard-task-container">
             <div class="dashboard-task-list">
+                {% for task in tasks %}
+                    <div class="task-item">
+                        <p><strong>Name:</strong> {{ task.name }}</p>
+                        <p><strong>Priority:</strong> {{ task.priority }}</p>
+                        <p><strong>Due Date:</strong> {{ task.due_date }}</p>
+                        <p><strong>Status:</strong> {{ task.status }}</p>
+                        <p><strong>Assigned To:</strong> {{ task.assigned_to }}</p>
+                        <button class="delete-task-button" data-name="{{ task.name }}">Delete</button>
+                    </div>
+                {% endfor %}
             </div>
-            <button type="button" id="clear-tasks" class="dashboard-button">Clear Tasks</button>
+            <button type="button" id="clear-tasks" class="dashboard-button">Clear All Tasks</button>
         </div>
-    </div>
     
     <script src="{{ url_for('static', filename='dashboard.js') }}"></script>
 </body>
