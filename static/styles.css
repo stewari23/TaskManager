@@ -433,6 +433,7 @@ form input {
     text-decoration: underline;
 }
 
+
 .flash-messages {
     background-color: #f8d7da;
     color: #721c24;
@@ -443,3 +444,4 @@ form input {
     max-width: 400px;
     text-align: center;
 }
+

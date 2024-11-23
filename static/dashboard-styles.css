@@ -1,0 +1,186 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+    
+}
+body{
+    font-family: Arial, sans-serif;
+}
+ul,
+li,
+a{
+    text-decoration: none;
+    list-style: none;
+}
+header {
+    background-color: #4CAF50;
+    color: rgb(0, 0, 0);
+    text-align: center;
+    padding: 80px 0;
+}
+
+:root{
+    --green: #08972c;
+    --pink: #f59b9b;
+    --red: #B22222;
+    --lightgreen: #638f6e;
+
+
+}
+.dashboard-container{
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 3rem;
+}
+
+/* Alert and Response Styling */
+.dashboard-response{
+    width: 100%;
+    max-width: 900px;
+    background-color: transparent;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.dashboard-alert{
+    padding: 0.75rem;
+    border-radius: 0.2rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.dashboard-response.red{
+    background-color: var(--pink);
+    color: var(--red);
+    border: 1px solid var(--red);
+}
+
+.dashboard-response.green{
+    background-color: var(--lightgreen);
+    color: white;
+    border: 1px solid var(--green);
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 2px 4px #333;
+}
+
+.dashboard-button{
+    background-color: transparent;
+    color: var(--green);
+    border: 1px solid var(--green);
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 2px 4px #333;
+}
+
+.green:hover{
+    background-color: var(--lightgreen);
+    color: white;
+}
+
+/* Form Styling */
+#dashboard-form{
+    width: 100%;
+    margin: 3rem auto;
+}
+
+
+#dashboard-form h3{
+    font-size: 2rem;
+    text-transform: capitalize;
+}
+
+/* Input Group Styling */
+.dashboard-input-group{
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between; 
+    align-items: baseline;
+    margin-bottom: 1rem;
+    
+    
+}
+
+.dashboard-input-group input{
+    width: 80%;
+    padding: 0.5rem;
+    border: 1px solid var(--green);
+    border-radius: 0.25rem;
+    font-size: 1rem;
+    text-transform: capitalize;
+}
+
+.dashboard-task-container{
+    width: 100%;
+    text-align: center;
+}
+
+.dashboard-task-container .dashboard-task-list{
+    margin-bottom: 2rem;
+}
+
+.dashboard-task-list .dashboard-task{
+    padding: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--green);
+}
+
+.dashboard-task .dashboard-task-info{
+    width: 80%;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.dashboard-task .dashboard-task-index{
+    border: 1px solid var(--green);
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+}
+
+.dashboard-task-index.completed{
+    color: #666;
+    border: 1px solid #ccc;
+}
+
+.dashboard-task .dashboard-task-name{
+    text-transform: capitalize;
+}
+
+.dashboard-task-name.completed{
+    text-decoration: line-through;
+    color: #666;
+}
+
+.dashboard-task-icons{
+    display: flex;
+    gap: 1rem;
+}
+
+.dashboard-task-icons .far{
+    cursor: pointer;
+}
+.fa-check-circle{
+    color: var(--green)
+}
+
+.fa-times-circle{
+    color: var(--red)
+}
