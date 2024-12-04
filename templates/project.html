@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Tasks</title>
+    
+    
+
+    <!-- Link to CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='project.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" 
+          integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" 
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div class="flash-messages">
+            {% for category, message in messages %}
+                {% if category == 'project' %}
+                    <div class="alert alert-success">{{ message }}</div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endwith %}
+
+<nav>
+    <div class="container nav-container">
+        <a href="{{ url_for('index') }}" class="logo">Task Manager</a>
+        <ul class="nav-links">
+            <li><a href="{{ url_for('index') }}">Home</a></li>
+            <li><a href="{{ url_for('about') }}">About</a></li>
+            <li><a href="{{ url_for('contact') }}">Contact</a></li>
+            {% if logged_in %}
+                <li><a href="{{ url_for('dashboard') }}">My Projects</a></li>
+                <li><a href="{{ url_for('logout') }}">Logout</a></li>
+            {% else %}
+                <li><a href="{{ url_for('login') }}">Login</a></li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>
+
+    <div class="dashboard-container">
+        <!-- Header -->
+        <header>Manage Tasks for {{ project.name }}</header>
+        <div class="redirect-container">
+            <a href="{{ url_for('dashboard') }}" class="redirect-button">Back to Dashboard</a>
+        </div>
+
+        <!-- Task Form -->
+        <form id="dashboard-form" method="post" action="/projects/{{ project.name }}">
+            <h3>Task Dashboard</h3>
+            <div class="dashboard-input-group">
+                <input type="text" id="task-input" name="name" placeholder="Task Name..." required>
+                <select id="priority-input" name="priority">
+                    <option value="Low">Low</option>
+                    <option value="Medium">Medium</option>
+                    <option value="High">High</option>
+                </select>
+                <input type="date" id="due-date-input" name="due_date" required>
+                <select id="status-input" name="status">
+                    <option value="Pending">Pending</option>
+                    <option value="In Progress">In Progress</option>
+                    <option value="Completed">Completed</option>
+                </select>
+                <input type="text" id="assigned-to-input" name="assigned_to" placeholder="Assign to..." required>
+                <button id="add-task" class="dashboard-button" type="submit">Add Task</button>
+            </div>
+        </form>
+
+        <!-- Task List -->
+        <div class="dashboard-task-container">
+            <h3>Tasks</h3>
+            <ul>
+                {% for task in project.tasks %}
+                    <li>
+                        <div class="task-details">
+                            <p><strong>Name:</strong> {{ task.name }}</p>
+                            <p><strong>Priority:</strong> {{ task.priority }}</p>
+                            <p><strong>Due Date:</strong> {{ task.due_date }}</p>
+                            <p><strong>Status:</strong> {{ task.status }}</p>
+                            <p><strong>Assigned To:</strong> {{ task.assigned_to }}</p>
+                        </div>
+        
+                        <button class="edit-task-toggle">Edit</button>
+        
+                        <form method="post" action="{{ url_for('edit_task', project_name=project.name) }}" class="edit-task-form hidden">
+                            <input type="hidden" name="original_name" value="{{ task.name }}">
+                            <p><strong>Name:</strong> <input type="text" name="name" value="{{ task.name }}"></p>
+                            <p><strong>Priority:</strong>
+                                <select name="priority">
+                                    <option value="Low" {% if task.priority == "Low" %}selected{% endif %}>Low</option>
+                                    <option value="Medium" {% if task.priority == "Medium" %}selected{% endif %}>Medium</option>
+                                    <option value="High" {% if task.priority == "High" %}selected{% endif %}>High</option>
+                                </select>
+                            </p>
+                            <p><strong>Due Date:</strong> <input type="date" name="due_date" value="{{ task.due_date }}"></p>
+                            <p><strong>Status:</strong>
+                                <select name="status">
+                                    <option value="Pending" {% if task.status == "Pending" %}selected{% endif %}>Pending</option>
+                                    <option value="In Progress" {% if task.status == "In Progress" %}selected{% endif %}>In Progress</option>
+                                    <option value="Completed" {% if task.status == "Completed" %}selected{% endif %}>Completed</option>
+                                </select>
+                            </p>
+                            <p><strong>Assigned To:</strong> <input type="text" name="assigned_to" value="{{ task.assigned_to }}"></p>
+                            <button type="submit" class="save-task-button">Save</button>
+                        </form>
+        
+                        <form method="post" action="{{ url_for('delete_task', project_name=project.name) }}">
+                            <input type="hidden" name="name" value="{{ task.name }}">
+                            <button class="delete-task-button" data-name="{{ task.name }}">Delete</button>
+                        </form>
+                        
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        
+
+    <!-- Link to JS -->
+    <script src="{{ url_for('static', filename='project.js') }}"></script>
+</body>
+</html>
