@@ -77,7 +77,8 @@ TBD
 ## Testing Procedures - !!! WIP !!!
 - Unit Tests: Located in the tests/unit/ folder, run with:
 ```bash
-pytest tests/unit
+pytest tests/test_app.py
+python ./tests/selenium_test_app.py   
 ```
 - API Testing: Using Postman and Requests library for API endpoint validation.
 - UI Testing: Selenium and Playwright scripts in tests/ui/.
