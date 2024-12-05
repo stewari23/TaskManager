@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Task Management Dashboard</title>
 
+    <!-- Link to CSS Files -->
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='dashboard-styles.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" 
@@ -12,35 +13,67 @@
           crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
-    <nav>
-        <div class="container nav-container">
-            <a href="{{ url_for('index') }}" class="logo">Task Manager</a>
-            <ul class="nav-links">
-                <li><a href="{{ url_for('index') }}">Home</a></li>
-                <li><a href="{{ url_for('about') }}">About</a></li>
-                <li><a href="{{ url_for('contact') }}">Contact</a></li>
-                <li><a href="{{ url_for('login') }}">Login</a></li>
-            </ul>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div class="flash-messages">
+            {% for category, message in messages %}
+                {% if category == 'dashboard' %}
+                    <div class="alert alert-success">{{ message }}</div>
+                {% endif %}
+            {% endfor %}
         </div>
-    </nav>
+    {% endif %}
+{% endwith %}
+
+<nav>
+    <div class="container nav-container">
+        <a href="{{ url_for('index') }}" class="logo">Task Manager</a>
+        <ul class="nav-links">
+            <li><a href="{{ url_for('index') }}">Home</a></li>
+            <li><a href="{{ url_for('about') }}">About</a></li>
+            <li><a href="{{ url_for('contact') }}">Contact</a></li>
+            {% if logged_in %}
+                <li><a href="{{ url_for('dashboard') }}">My Projects</a></li>
+                <li><a href="{{ url_for('logout') }}">Logout</a></li>
+            {% else %}
+                <li><a href="{{ url_for('login') }}">Login</a></li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>
+
     <div class="dashboard-container">
-        <header class="dashboard-response dashboard-alert">Write value for task name</header>
-        
-        <form id="dashboard-form">
-            <h3>Task Dashboard</h3>
+        <!-- Header -->
+        <header><h1>Create and Manage Projects</h1></header>
+
+        <!-- Create Project Section -->
+        <form id="project-form" method="post" action="/dashboard">
+            <h3>Create Project</h3>
             <div class="dashboard-input-group">
-                <input type="text" id="task-input" placeholder="Task...">
-                <button id="add-task" class="dashboard-button" type="submit">Add Task</button>
+                <input type="text" id="project-name" class="dashboard-input" name="project_name" placeholder="Project Name..." required>
+                <button id="add-project" class="dashboard-button" type="submit">Add Project</button>
             </div>
         </form>
-        
+
+        <!-- Your Projects Section -->
         <div class="dashboard-task-container">
-            <div class="dashboard-task-list">
-            </div>
-            <button type="button" id="clear-tasks" class="dashboard-button">Clear Tasks</button>
+            <h3>Your Projects</h3>
+            <ul class="dashboard-task-list">
+                {% for project in projects %}
+                    <li class="dashboard-task">
+                        <a class="dashboard-task-name" href="{{ url_for('project_view', project_name=project['name']) }}">{{ project['name'] }}</a>
+                        <form method="post" action="{{ url_for('delete_project', project_name=project['name']) }}" class="delete-project-form">
+                            <button type="submit" class="delete-project-button">Delete</button>
+                        </form>
+                    </li>
+                {% endfor %}
+            </ul>
         </div>
-    </div>
+        
+
     
+
+    <!-- Link to JavaScript File -->
     <script src="{{ url_for('static', filename='dashboard.js') }}"></script>
 </body>
 </html>
