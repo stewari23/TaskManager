@@ -1,0 +1,236 @@
+{
+    "collection": {
+      "info": {
+        "_postman_id": "8ed96120-814b-49a9-9956-8d6258e9d758",
+        "name": "Task",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+        "updatedAt": "2024-12-08T03:13:10.000Z",
+        "createdAt": "2024-12-08T03:08:10.000Z",
+        "lastUpdatedBy": "25063990",
+        "uid": "25063990-8ed96120-814b-49a9-9956-8d6258e9d758"
+      },
+      "item": [
+        {
+          "name": "Login Copy",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "2eaf07cf-ffd4-4fc8-8911-ae454f5fde3e",
+                "exec": [
+                  "pm.test(\"Status code is 302 (redirect)\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "// Save the session cookie for authentication\r",
+                  "let sessionCookie = pm.cookies.get('session'); // Replace 'session' with the correct cookie name from the response\r",
+                  "if (sessionCookie) {\r",
+                  "    pm.environment.set(\"session_cookie\", sessionCookie);\r",
+                  "} else {\r",
+                  "    console.log(\"Session cookie not found!\");\r",
+                  "}\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {
+  
+                }
+              }
+            }
+          ],
+          "id": "565d1642-fd00-4ee7-80d1-bed00d7ec186",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"username\": \"testuser\",\r\n    \"password\": \"testpass\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:5000/login",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "login"
+              ]
+            }
+          },
+          "response": [],
+          "uid": "25063990-565d1642-fd00-4ee7-80d1-bed00d7ec186"
+        },
+        {
+          "name": "Project - Create a Valid Project Copy",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "5c98ba12-1b0f-4294-a551-53b469503752",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "// Test if the response contains the success message within the HTML\r",
+                  "pm.test(\"Response contains success message in HTML\", function () {\r",
+                  "    const responseText = pm.response.text();\r",
+                  "    pm.expect(responseText).to.include(\"Project 'Test Project' added successfully!\");\r",
+                  "});\r",
+                  "\r",
+                  "// Validate Content-Type header for HTML\r",
+                  "pm.test(\"Content-Type header is text/html\", function () {\r",
+                  "    pm.response.to.have.header(\"Content-Type\", \"text/html; charset=utf-8\");\r",
+                  "});\r",
+                  "\r",
+                  "// Ensure the response does not contain any error messages in HTML\r",
+                  "pm.test(\"Response does not contain error messages\", function () {\r",
+                  "    const responseText = pm.response.text();\r",
+                  "    pm.expect(responseText).to.not.include(\"error\");\r",
+                  "});\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {
+  
+                }
+              }
+            }
+          ],
+          "id": "0bbc820f-fb35-4a0f-ba33-8961aac73168",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Cookie",
+                "value": "session={{session_cookie}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "project_name",
+                  "value": "Test Project",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://127.0.0.1:5000/dashboard",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "dashboard"
+              ]
+            }
+          },
+          "response": [],
+          "uid": "25063990-0bbc820f-fb35-4a0f-ba33-8961aac73168"
+        },
+        {
+          "name": "Task - Create a Valid Task",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "eca5c33f-9d23-4d43-82e0-4432d13d1071",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response contains success message\", function () {\r",
+                  "    const responseText = pm.response.text();\r",
+                  "    pm.expect(responseText).to.include(\"Task 'Task Name' added successfully!\");\r",
+                  "});\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {
+  
+                }
+              }
+            }
+          ],
+          "id": "cfbdb754-df6e-42f3-ac7a-b6637138eafc",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "name",
+                  "value": "Task Name",
+                  "type": "text"
+                },
+                {
+                  "key": "priority",
+                  "value": "Medium",
+                  "type": "text"
+                },
+                {
+                  "key": "due_date",
+                  "value": "2024-12-31",
+                  "type": "text"
+                },
+                {
+                  "key": "status",
+                  "value": "In Progress",
+                  "type": "text"
+                },
+                {
+                  "key": "assigned_to",
+                  "value": "Test User",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://127.0.0.1:5000/projects/Test%20Project",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "projects",
+                "Test%20Project"
+              ]
+            }
+          },
+          "response": [],
+          "uid": "25063990-cfbdb754-df6e-42f3-ac7a-b6637138eafc"
+        }
+      ]
+    }
+  }
