@@ -1,0 +1,442 @@
+{
+    "collection": {
+      "info": {
+        "_postman_id": "09cb5290-dedd-4cce-89fc-d01d88279dce",
+        "name": "Project",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+        "updatedAt": "2024-12-08T04:16:42.000Z",
+        "createdAt": "2024-12-05T20:33:32.000Z",
+        "lastUpdatedBy": "25063990",
+        "uid": "25063990-09cb5290-dedd-4cce-89fc-d01d88279dce"
+      },
+      "item": [
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "2eaf07cf-ffd4-4fc8-8911-ae454f5fde3e",
+                "exec": [
+                  "pm.test(\"Status code is 302 (redirect)\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "// Save the session cookie for authentication\r",
+                  "let sessionCookie = pm.cookies.get('session'); // Replace 'session' with the correct cookie name from the response\r",
+                  "if (sessionCookie) {\r",
+                  "    pm.environment.set(\"session_cookie\", sessionCookie);\r",
+                  "} else {\r",
+                  "    console.log(\"Session cookie not found!\");\r",
+                  "}\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {
+  
+                }
+              }
+            }
+          ],
+          "id": "c4c549f9-51b4-4c4b-ae69-c2af3279b0d6",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"username\": \"testuser\",\r\n    \"password\": \"testpass\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:5000/login",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "login"
+              ]
+            }
+          },
+          "response": [],
+          "uid": "25063990-c4c549f9-51b4-4c4b-ae69-c2af3279b0d6"
+        },
+        {
+          "name": "Project - Create a Valid Project",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "5c98ba12-1b0f-4294-a551-53b469503752",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "// Test if the response contains the success message within the HTML\r",
+                  "pm.test(\"Response contains success message in HTML\", function () {\r",
+                  "    const responseText = pm.response.text();\r",
+                  "    pm.expect(responseText).to.include(\"Project 'Test Project' added successfully!\");\r",
+                  "});\r",
+                  "\r",
+                  "// Validate Content-Type header for HTML\r",
+                  "pm.test(\"Content-Type header is text/html\", function () {\r",
+                  "    pm.response.to.have.header(\"Content-Type\", \"text/html; charset=utf-8\");\r",
+                  "});\r",
+                  "\r",
+                  "// Ensure the response does not contain any error messages in HTML\r",
+                  "pm.test(\"Response does not contain error messages\", function () {\r",
+                  "    const responseText = pm.response.text();\r",
+                  "    pm.expect(responseText).to.not.include(\"error\");\r",
+                  "});\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {
+  
+                }
+              }
+            }
+          ],
+          "id": "4e51f5b7-26a9-4700-b46e-cf1f0f55ac4a",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Cookie",
+                "value": "session={{session_cookie}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "project_name",
+                  "value": "Test Project",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://127.0.0.1:5000/dashboard",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "dashboard"
+              ]
+            }
+          },
+          "response": [],
+          "uid": "25063990-4e51f5b7-26a9-4700-b46e-cf1f0f55ac4a"
+        },
+        {
+          "name": "Project - Missing Field",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "cf1f5fa4-cbc6-4455-9029-1c54a48eab33",
+                "exec": [
+                  "pm.test(\"Status code is 400\", function () {\r",
+                  "    pm.response.to.have.status(400);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response contains error message\", function () {\r",
+                  "    var jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData.error).to.eql(\"Project name is required.\"); // Update this message based on your backend logic\r",
+                  "});\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {
+  
+                }
+              }
+            }
+          ],
+          "id": "cfd8871d-4d02-4dc7-bfbb-31c4db0f36fa",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"project_name\": \"\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:5000/dashboard",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "dashboard"
+              ]
+            }
+          },
+          "response": [],
+          "uid": "25063990-cfd8871d-4d02-4dc7-bfbb-31c4db0f36fa"
+        },
+        {
+          "name": "Project - Duplicate Name",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "e97b2271-5f79-4e21-99c3-aee81f388f0d",
+                "exec": [
+                  "pm.test(\"Status code is 400 or appropriate\", function () {\r",
+                  "    pm.response.to.have.status(400); // Adjust if your app allows duplicate projects\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response contains duplicate error message\", function () {\r",
+                  "    var jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData.error).to.eql(\"Project name already exists.\"); // Customize based on the app logic\r",
+                  "});\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {
+  
+                }
+              }
+            }
+          ],
+          "id": "91586aeb-c927-4a65-b9d0-b7a849ff5c44",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"project_name\": \"Test Project\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:5000/dashboard",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "dashboard"
+              ]
+            }
+          },
+          "response": [],
+          "uid": "25063990-91586aeb-c927-4a65-b9d0-b7a849ff5c44"
+        },
+        {
+          "name": "Project - Validate Header",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "9cba006c-e52c-4c13-9cd6-a1b2bbcb05b4",
+                "exec": [
+                  "pm.test(\"Content-Type is JSON\", function () {\r",
+                  "    pm.response.to.have.header(\"Content-Type\", \"application/json\");\r",
+                  "});\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {
+  
+                }
+              }
+            }
+          ],
+          "id": "125fec24-ca8c-458a-928d-8c4f2267e94c",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"project_name\": \"Another Project\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:5000/dashboard",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "dashboard"
+              ]
+            }
+          },
+          "response": [],
+          "uid": "25063990-125fec24-ca8c-458a-928d-8c4f2267e94c"
+        },
+        {
+          "name": "Project - Appears on Dashboard",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "0dd7e752-a2ed-46eb-8cf2-3f8118c6114f",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response contains the project name\", function () {\r",
+                  "    pm.expect(pm.response.text()).to.include(\"Test Project\");\r",
+                  "});\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {
+  
+                }
+              }
+            }
+          ],
+          "id": "04446566-111f-47ac-adff-f3aaa65e9b76",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://127.0.0.1:5000/dashboard",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "dashboard"
+              ]
+            }
+          },
+          "response": [],
+          "uid": "25063990-04446566-111f-47ac-adff-f3aaa65e9b76"
+        },
+        {
+          "name": "Project - Delete a Valid Project",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "5c98ba12-1b0f-4294-a551-53b469503752",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response contains success message\", function () {\r",
+                  "    pm.response.to.have.body.include(\"Project 'Test Project' deleted successfully!\");\r",
+                  "});\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {
+  
+                }
+              }
+            }
+          ],
+          "id": "12fabaca-84f0-42e6-9509-4e95cb7f02da",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Cookie",
+                "value": "session={{session_cookie}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "project_name",
+                  "value": "Test Project",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://127.0.0.1:5000/delete_project/Test%20Project",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "delete_project",
+                "Test%20Project"
+              ]
+            }
+          },
+          "response": [],
+          "uid": "25063990-12fabaca-84f0-42e6-9509-4e95cb7f02da"
+        }
+      ]
+    }
+  }

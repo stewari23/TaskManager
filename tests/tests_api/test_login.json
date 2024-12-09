@@ -1,0 +1,82 @@
+{
+    "collection": {
+      "info": {
+        "_postman_id": "923d6374-2482-4182-adf2-2377fb2ca719",
+        "name": "Login TEST",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+        "updatedAt": "2024-12-05T20:33:25.000Z",
+        "createdAt": "2024-12-05T14:00:56.000Z",
+        "lastUpdatedBy": "25063990",
+        "uid": "25063990-923d6374-2482-4182-adf2-2377fb2ca719"
+      },
+      "item": [
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "039b3d60-2d8c-452c-a0a8-731714c60eed",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);  // The server responds with 200, not 302\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response contains Dashboard header\", function () {\r",
+                  "    pm.expect(pm.response.text()).to.include(\"\u003Ch1\u003ECreate and Manage Projects\u003C/h1\u003E\");  // Verify the dashboard is rendered\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response contains navigation links\", function () {\r",
+                  "    pm.expect(pm.response.text()).to.include('\u003Ca href=\"/dashboard\"\u003EMy Projects\u003C/a\u003E');  // Verify the 'My Projects' link exists\r",
+                  "    pm.expect(pm.response.text()).to.include('\u003Ca href=\"/logout\"\u003ELogout\u003C/a\u003E');  // Verify the 'Logout' link exists\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Content-Type is HTML\", function () {\r",
+                  "    pm.response.to.have.header(\"Content-Type\", \"text/html; charset=utf-8\");  // Verify the response content type\r",
+                  "});\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {
+  
+                }
+              }
+            }
+          ],
+          "id": "98ad5903-0d2c-43e5-8420-b769f2d3588d",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"username\": \"testuser\",\r\n    \"password\": \"testpass\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:5000/login",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "login"
+              ]
+            }
+          },
+          "response": [],
+          "uid": "25063990-98ad5903-0d2c-43e5-8420-b769f2d3588d"
+        }
+      ]
+    }
+  }

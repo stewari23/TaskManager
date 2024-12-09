@@ -1,0 +1,265 @@
+{
+    "collection": {
+      "info": {
+        "_postman_id": "23d1dff0-23aa-4d39-8e50-ec131474c7e3",
+        "name": "Signup TEST",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+        "updatedAt": "2024-12-05T20:45:19.000Z",
+        "createdAt": "2024-12-05T20:32:58.000Z",
+        "lastUpdatedBy": "25063990",
+        "uid": "25063990-23d1dff0-23aa-4d39-8e50-ec131474c7e3"
+      },
+      "item": [
+        {
+          "name": "Signup",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "039b3d60-2d8c-452c-a0a8-731714c60eed",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);  // Ensure the status code is 200\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Content-Type is HTML\", function () {\r",
+                  "    pm.response.to.have.header(\"Content-Type\", \"text/html; charset=utf-8\");  // Verify the response type\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response contains Signup form\", function () {\r",
+                  "    pm.expect(pm.response.text()).to.include(\"\u003Cform\");  // Check if the response contains a form element\r",
+                  "    pm.expect(pm.response.text()).to.include('action=\"/signup\"');  // Ensure the form points to the /signup endpoint\r",
+                  "    pm.expect(pm.response.text()).to.include('type=\"text\"');  // Check for text input fields\r",
+                  "    pm.expect(pm.response.text()).to.include('type=\"password\"');  // Check for password input fields\r",
+                  "    pm.expect(pm.response.text()).to.include('\u003Cbutton');  // Ensure there is a submit button\r",
+                  "});\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {
+  
+                }
+              }
+            }
+          ],
+          "id": "64560cb6-86ce-4b05-8d1a-8ac79dc71fa3",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:5000/signup",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "signup"
+              ]
+            }
+          },
+          "response": [],
+          "uid": "25063990-64560cb6-86ce-4b05-8d1a-8ac79dc71fa3"
+        },
+        {
+          "name": "Signup - Valid Data",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "039b3d60-2d8c-452c-a0a8-731714c60eed",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);  // Verify the status code is 200\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response contains success message\", function () {\r",
+                  "    var jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData.message).to.eql(\"Signup successful. Please log in.\");  // Check the success message\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response Content-Type is JSON\", function () {\r",
+                  "    pm.response.to.have.header(\"Content-Type\", \"application/json\");  // Ensure the response is JSON\r",
+                  "});\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {
+  
+                }
+              }
+            }
+          ],
+          "id": "0969e86a-db4b-4c38-87c1-1274955f05f4",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"username\": \"newuser\",\r\n    \"password\": \"newpassword\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:5000/signup",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "signup"
+              ]
+            }
+          },
+          "response": [],
+          "uid": "25063990-0969e86a-db4b-4c38-87c1-1274955f05f4"
+        },
+        {
+          "name": "Signup - Missing Field",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "039b3d60-2d8c-452c-a0a8-731714c60eed",
+                "exec": [
+                  "pm.test(\"Status code is 400\", function () {\r",
+                  "    pm.response.to.have.status(400);  // Ensure the response is a bad request\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response contains error message\", function () {\r",
+                  "    var jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData.error).to.eql(\"Username and password are required.\");  // Verify the error message\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response Content-Type is JSON\", function () {\r",
+                  "    pm.response.to.have.header(\"Content-Type\", \"application/json\");  // Ensure the response is JSON\r",
+                  "});\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {
+  
+                }
+              }
+            }
+          ],
+          "id": "28aed4f3-71c3-4d9a-87f1-cc987ca977cf",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"username\": \"\",\r\n    \"password\": \"testpassword\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:5000/signup",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "signup"
+              ]
+            }
+          },
+          "response": [],
+          "uid": "25063990-28aed4f3-71c3-4d9a-87f1-cc987ca977cf"
+        },
+        {
+          "name": "Signup - Unsupported Methods",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "039b3d60-2d8c-452c-a0a8-731714c60eed",
+                "exec": [
+                  "pm.test(\"Status code is 405\", function () {\r",
+                  "    pm.response.to.have.status(405);  // Ensure the method is not allowed\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response contains error message\", function () {\r",
+                  "    pm.expect(pm.response.text()).to.include(\"Method Not Allowed\");  // Verify the error message\r",
+                  "});\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {
+  
+                }
+              }
+            }
+          ],
+          "id": "33796ced-35b5-4459-bc89-bcfe4f89c595",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:5000/signup",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "signup"
+              ]
+            }
+          },
+          "response": [],
+          "uid": "25063990-33796ced-35b5-4459-bc89-bcfe4f89c595"
+        }
+      ]
+    }
+  }
