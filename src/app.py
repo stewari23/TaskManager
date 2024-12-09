@@ -1,4 +1,8 @@
 from flask import Flask, jsonify, redirect, render_template, request, url_for, session
+import sqlite3
+import os
+import hashlib
+
 
 app = Flask(
     __name__,
@@ -36,11 +40,51 @@ def logout():
     session.clear()
     return redirect(url_for('index'))
 
+db_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'database.db'))
+
+
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
-        return jsonify(message='Signup successful. Please log in.')
+        username = request.form.get('username')
+        email = request.form.get('email')
+        password = request.form.get('password')
+
+        # Hash the password using hashlib
+        hashed_password = hashlib.sha256(password.encode('utf-8')).hexdigest()
+
+        # Connect to the database
+        conn = sqlite3.connect(db_path)
+        c = conn.cursor()
+
+        # Check if the username or email already exists
+        c.execute('''
+            SELECT * FROM users 
+            WHERE LOWER(username) = LOWER(?) OR LOWER(email) = LOWER(?)
+        ''', (username, email))
+        existing_user = c.fetchone()
+
+        if existing_user:
+            conn.close()
+            # Render the signup page with an error message
+            return render_template(
+                'signup.html',
+                error="The username or email already exists. Please log in instead."
+            )
+
+        # Insert the new user into the database
+        c.execute('INSERT INTO users (username, email, password) VALUES (?, ?, ?)',
+                  (username, email, hashed_password))
+        conn.commit()
+        conn.close()
+
+        return redirect(url_for('login'))
+
     return render_template('signup.html', logged_in=session.get('logged_in', False))
+
+
+
+
 
 @app.route('/dashboard', methods=['GET', 'POST'])
 def dashboard():
